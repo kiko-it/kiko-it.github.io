@@ -48,9 +48,10 @@ function clip(poly,n,d){const out=[];for(let i=0;i<poly.length;i++){
 export function sphereSection(d){d=Math.max(-1,Math.min(1,d));const r=Math.sqrt(Math.max(0,1-d*d)),h=d+1;
   return {radius:r,area:Math.PI*r*r,perimeter:2*Math.PI*r,volume:Math.PI*h*h*(1-h/3),total:4*Math.PI/3};
 }
-// 円錐は底面z=0、頂点z=1。頂点側の小円錐を測る。
-export function coneSection(height){const h=Math.max(0,Math.min(1,height)),r=1-h;
-  return {radius:r,area:Math.PI*r*r,perimeter:2*Math.PI*r,volume:Math.PI*r*r*r/3,total:Math.PI/3};
+// 底面半径1、高さ√3。heightは底面からの実距離。頂点側を測る。
+export const CONE_HEIGHT=Math.sqrt(3);
+export function coneSection(height){const h=Math.max(0,Math.min(CONE_HEIGHT,height)),r=1-h/CONE_HEIGHT;
+  return {radius:r,area:Math.PI*r*r,perimeter:2*Math.PI*r,volume:Math.PI*CONE_HEIGHT*r*r*r/3,total:Math.PI*CONE_HEIGHT/3};
 }
 export function evaluateGoal(mode,m,metric='area'){
   if(mode==='cube')return {success:m.sides===5&&Math.abs(m.area-.8)<=.025,error:Math.abs(m.area-.8)/.8};
