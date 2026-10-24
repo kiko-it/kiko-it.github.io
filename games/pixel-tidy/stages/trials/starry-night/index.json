@@ -1,0 +1,12 @@
+{
+  "format": "pixel-tidy-stage-catalog",
+  "version": 1,
+  "stages": [
+    {
+      "id": 95,
+      "name": "星月夜 — ゴッホ（試作）",
+      "file": "stage-095.json",
+      "difficultyLevel": 8
+    }
+  ]
+}

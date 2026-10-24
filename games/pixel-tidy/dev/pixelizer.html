@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Pixel Tidyの開発用画像ピクセル化ツール。画像をローカルで減色し、PNGと素材JSONを出力します。">
+  <title>画像ピクセル化 — Pixel Tidy Lab</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="pixelizer.css">
+</head>
+<body>
+  <main>
+    <header><a href="../index.html">← ゲームへ</a><span>PIXEL TIDY / LAB</span><span class="tag">開発用</span></header>
+    <div class="heading"><p class="eyebrow">ART TO PIXELS</p><h1>名画を、小さなドット絵に。</h1><p>画像を読み込んで、サイズと色を整える。処理はこのブラウザ内で完結します。</p></div>
+    <div class="layout">
+      <section class="controls" aria-label="変換設定">
+        <h2>01 / 画像と設定</h2>
+        <label class="upload">画像を選択<input type="file" id="image-file" accept="image/png,image/jpeg,image/webp"><small>PNG・JPEG・WebP / 最大20MB</small></label>
+        <div class="two-fields"><label>幅（ドット）<input id="grid-width" type="number" min="10" max="128" step="1" value="30"></label><label>高さ（ドット）<input id="grid-height" type="number" min="10" max="128" step="1" value="30"></label></div>
+        <p id="pixel-count" class="pixel-count" aria-live="polite">設定のピクセル数：900</p>
+        <label>最大色数<select id="color-limit"><option>4</option><option>5</option><option>6</option><option>7</option><option selected>8</option><option>9</option><option>10</option><option>11</option><option>12</option></select></label>
+        <label>画像の配置<select id="fit-mode"><option value="contain">絵全体を残す（余白あり）</option><option value="cover">中央を切り抜く（余白なし）</option><option value="stretch">縦横いっぱいに伸ばす</option></select></label>
+        <label class="color-field">余白・透明部分の背景色<input id="background-color" type="color" value="#f4e9cf"></label>
+        <label class="check"><input id="preserve-transparency" type="checkbox"> 透明部分・余白を空きマスとして残す</label>
+        <button id="convert" class="primary" disabled>ピクセル化する →</button>
+        <p id="status" role="status">まず画像ファイルを選んでください。</p>
+        <details><summary>出典を記録する</summary><div class="source-fields">
+          <label>作品名<input id="art-title" type="text" maxlength="200" placeholder="例：神奈川沖浪裏"></label>
+          <label>作者<input id="art-artist" type="text" maxlength="200" placeholder="例：葛飾北斎"></label>
+          <label>作品ページURL<input id="source-url" type="url" placeholder="https://..."></label>
+          <label>利用条件<select id="license"><option value="未確認">未確認</option><option value="CC0">CC0</option><option value="Public Domain">Public Domain</option><option value="その他">その他</option></select></label>
+          <label>利用条件のページURL<input id="license-url" type="url" placeholder="https://..."></label>
+        </div></details>
+      </section>
+      <section class="previews" aria-label="画像プレビュー">
+        <div class="preview-grid">
+          <div class="preview-card"><h2>原画像</h2><div class="image-frame"><img id="original" alt="読み込んだ原画像" hidden><span id="original-empty">YOUR ARTWORK HERE</span></div><p id="original-info">ローカル画像を読み込みます。</p></div>
+          <div class="preview-card"><h2>ピクセル絵</h2><div class="image-frame checkerboard"><canvas id="pixel-preview" aria-label="変換後のドット絵" hidden></canvas><span id="pixel-empty">30 × 30 / 8 COLORS</span></div><p id="result-info">変換結果がここに表示されます。</p></div>
+        </div>
+        <div class="export-card"><div><h2>02 / 素材を書き出す</h2><p>PNGは各ドットを16倍に拡大。JSONは色・マス・出典を保存します。</p></div><div class="downloads"><button id="save-png" disabled>PNGを保存</button><button id="save-json" disabled>素材JSONを保存</button></div><div id="palette-list" class="palette-list"></div></div>
+        <div class="notes"><h2>パブリックドメインの名画を使う</h2><p>美術館の作品ページで「CC0」「Public Domain」「Open Access」を確認し、画像をダウンロードして読み込んでください。</p><div class="source-links"><a href="https://www.metmuseum.org/hubs/open-access" target="_blank" rel="noopener noreferrer">The Met ↗</a><a href="https://api.artic.edu/docs/" target="_blank" rel="noopener noreferrer">シカゴ美術館 ↗</a><a href="https://www.nga.gov/artworks/free-images-and-open-access" target="_blank" rel="noopener noreferrer">National Gallery of Art ↗</a></div><p class="note-small">このツールは絵素材を作ります。レーン・解法の制作と検証は、問題ごとに行います。</p></div>
+      </section>
+    </div>
+  </main>
+  <script type="module" src="pixelizer.js"></script>
+</body>
+</html>

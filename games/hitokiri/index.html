@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="ja">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f4f2eb"><title>ひと切り — 五角形、切れる？</title><link rel="stylesheet" href="./style.css"></head>
+<body>
+<header><a class="brand" href="./">ひと切り<span>HITOKIRI / A LITTLE GEOMETRY</span></a><button id="help" class="quiet">遊び方 ↗</button></header>
+<main>
+<nav aria-label="立体を選ぶ"><button data-mode="sphere"><span>◯</span>球を切る</button><button data-mode="cube"><span>◇</span>立方体を切る</button><button data-mode="cone"><span>△</span>円錐を切る</button></nav>
+<section class="intro"><p class="eyebrow" id="chapter">01 / CUBE</p><h1 id="headline">五角形、切れる？</h1><p id="subtitle">立方体をひと切り。断面を五角形にして、面積 0.800 を狙おう。</p></section>
+<div class="workspace">
+<section class="stage" aria-label="切断のプレビュー"><div class="stage-top"><span id="solid-label">一辺 1 の立方体</span><span class="live"><i></i><span id="preview-label">切断前</span></span></div><canvas id="scene" aria-label="立体と切断面。ドラッグで視点を回転できます"></canvas><div class="stage-bottom"><span>ドラッグで視点を回転</span><button id="view-reset" class="quiet">視点を戻す ↺</button></div></section>
+<aside>
+<div class="mission"><span class="eyebrow">TODAY'S CUT</span><h2 id="mission-title">五角形 × 面積 0.800</h2><p id="mission-note">辺の数は5本。面積は ±0.025 で成功。</p></div>
+<div class="section-heading"><h2>切る位置を決める</h2><button id="reset" class="quiet">リセット</button></div>
+<div id="angles"><label for="azimuth">向き <output id="azimuth-out"></output></label><input id="azimuth" type="range" min="0" max="180" step="0.1" value="35"><label for="elevation">傾き <output id="elevation-out"></output></label><input id="elevation" type="range" min="-80" max="80" step="0.1" value="28"></div>
+<label for="offset"><span id="offset-label">中心からの位置</span><output id="offset-out"></output></label><input id="offset" type="range" min="-0.86" max="0.86" step="0.001" value="0.08">
+<div id="metric-picker" hidden><label for="metric">ねらう測定値</label><select id="metric"><option value="area">断面積を最大の50%に</option><option value="perimeter">周長を最大の50%に</option><option value="volume">片側の体積を全体の50%に</option></select></div>
+<button id="cut" class="cut">ここで切る <span>↗</span></button><p class="control-note">測定結果は、切ってからのお楽しみ。</p>
+<section id="result" hidden aria-live="polite"><div id="result-status"></div><div class="result-body"><canvas id="section" aria-label="真正面から見た断面"></canvas><div id="measurements"></div></div><p id="feedback"></p><button id="share" class="quiet">結果をコピー ↗</button><span id="copy-status" role="status"></span></section>
+</aside></div>
+<footer><span>ひとつの立体。ひとつの平面。ちょっとだけ、ぴったりに。</span><span>HITOKIRI — PROTOTYPE 01</span></footer>
+</main>
+<dialog id="help-dialog"><h2>傾けて、ずらして、ひと切り。</h2><p>スライダーで切断面の向きと位置を決め、「ここで切る」を押します。PCでは矢印キーで細かく調整できます。</p><p>立方体は断面を五角形にして面積0.800を狙います。球・円錐は断面積、周長、片側の体積を50%に近づけます。円錐は底面と平行に切ります。</p><p>青い線は切断面。切った後は断面と測定結果が表示されます。何度でも挑戦できます。</p><button id="close-help" class="cut">わかった</button></dialog>
+<script type="module" src="./js/app.js"></script>
+</body></html>

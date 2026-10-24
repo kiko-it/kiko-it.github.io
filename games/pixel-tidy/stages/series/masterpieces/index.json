@@ -1,0 +1,30 @@
+{
+  "format": "pixel-tidy-stage-catalog",
+  "version": 1,
+  "stages": [
+    {
+      "id": 1,
+      "name": "星月夜 — ゴッホ",
+      "file": "stage-001.json",
+      "difficultyLevel": 10
+    },
+    {
+      "id": 2,
+      "name": "神奈川沖浪裏 — 葛飾北斎",
+      "file": "stage-002.json",
+      "difficultyLevel": 10
+    },
+    {
+      "id": 3,
+      "name": "凱風快晴（赤富士） — 葛飾北斎",
+      "file": "stage-003.json",
+      "difficultyLevel": 10
+    },
+    {
+      "id": 4,
+      "name": "夜のカフェテラス — ゴッホ",
+      "file": "stage-004.json",
+      "difficultyLevel": 10
+    }
+  ]
+}

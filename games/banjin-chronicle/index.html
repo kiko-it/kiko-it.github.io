@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#152822">
+  <title>盤陣クロニクル | 将棋タワーディフェンス</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="js/data.js" defer></script>
+  <script src="js/rules.js" defer></script>
+  <script src="js/engine.js" defer></script>
+  <script src="js/profile.js" defer></script>
+  <script src="js/effects.js" defer></script>
+  <script src="js/debug.js" defer></script>
+  <script src="js/app.js" defer></script>
+</head>
+<body>
+  <header class="header">
+    <a class="brand" href="./index.html" aria-label="盤陣クロニクル ホーム"><span class="brand-mark">盤</span><span>盤陣クロニクル<small>BANJIN CHRONICLE</small></span></a>
+    <div class="header-right"><span class="prototype">PROTOTYPE <b>02</b></span><button class="quiet" id="help-button">遊び方 <span>?</span></button></div>
+  </header>
+  <main>
+    <section class="page-title"><div><p class="eyebrow">SHOGI × TOWER DEFENSE</p><h1>一手が、戦局を変える。</h1><p class="subtitle">駒を編み、陣を守り、敵陣を突破せよ。</p></div><div class="chapter"><span>CHAPTER</span><strong id="chapter-number">01</strong><p id="stage-title">はじまりの布陣</p></div></section>
+    <div class="game-layout">
+      <aside id="army-panel" class="left-panel panel">
+        <div class="panel-heading"><h2>出陣編成</h2><span>ARMY</span></div>
+        <div class="cost-row"><span>出陣コスト</span><strong><span id="cost">19</span><i> / </i><span id="cost-limit">21</span></strong></div><div class="cost-track"><div id="cost-fill"></div></div>
+        <p class="muted tiny" id="player-level-info">上限はプレイヤーの進行で成長 · 編成は自動保存</p>
+        <div id="roster" class="roster"></div>
+        <p class="board-guide" id="board-input-guide">駒をドラッグ → 配置を変更<br>クリック → 装備・強化・編成から外す</p>
+        <div class="unlock-list"><p class="eyebrow">戦術の解禁</p><div id="placement-unlock"></div><div id="movement-unlock"></div></div>
+        <div class="stage-picker"><label for="stage-select">ステージ</label><select id="stage-select"></select></div>
+        <button class="secondary stage-list-button" id="stage-list-button" aria-haspopup="dialog">ステージ一覧</button>
+        <button class="quiet restart" id="restart-button">↻ このステージをやり直す</button>
+        <button class="quiet reset-save" id="reset-save-button" aria-haspopup="dialog">セーブを削除して最初から</button>
+      </aside>
+      <section class="battle-section" aria-label="戦場">
+        <div class="battle-top"><div><span class="status-dot"></span><strong id="phase-label">出陣準備</strong><span id="phase-hint">編成と装備を整えよう</span></div><button id="status-button" class="status-button" aria-haspopup="dialog">状態確認</button><div id="turn-label" class="turn-label" hidden>TURN <strong id="turn">01</strong></div></div>
+        <div class="board-frame">
+          <div class="edge-label enemy-edge"><span>敵陣</span><span>ENEMY TERRITORY</span><span id="enemy-count">敵 3</span></div>
+          <button id="breakthrough" class="breakthrough" hidden>↑ 10行目へ進み、敵陣を突破する</button>
+          <div class="board-shell"><div class="row-labels" aria-hidden="true"><span>9</span><span>8</span><span>7</span><span>6</span><span>5</span><span>4</span><span>3</span><span>2</span><span>1</span></div><div id="board" class="board" role="group" aria-label="9×9の盤面"></div></div>
+          <div class="column-labels" aria-hidden="true"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span></div>
+          <div class="edge-label ally-edge"><span>自陣</span><span>YOUR TERRITORY</span><span id="ally-count">味方 5</span></div>
+        </div>
+        <div class="board-legend"><span><i class="legend-ally"></i>味方</span><span><i class="legend-enemy"></i>敵</span><span><i class="legend-attack"></i>攻撃</span><span><i class="legend-buff"></i>バフ</span><span><i class="legend-debuff"></i>デバフ</span><span><i class="legend-heal"></i>回復</span><span><i class="legend-move"></i>移動可能</span></div>
+        <p id="enemy-ai-hint" class="muted tiny"></p><p id="mission-hint" class="muted tiny"></p><div class="command-bar"><p id="command-hint">準備ができたら、出陣しましょう。</p><div><button id="auto-button" class="secondary" hidden>▶ 自動進行</button><button id="primary-button" class="primary">出陣する <span>→</span></button></div></div>
+        <p id="notice" class="notice" role="status" aria-live="polite"></p>
+        <div class="mobile-toolbar"><button id="mobile-army-button" class="secondary" aria-haspopup="dialog">編成・設定</button><button id="mobile-stage-button" class="secondary" aria-haspopup="dialog">ステージ一覧</button></div>
+      </section>
+      <aside class="right-panel">
+        <details id="log-disclosure" open><summary>戦況記録</summary><section class="panel log-panel"><div class="panel-heading"><h2>戦況記録</h2><span>BATTLE LOG</span></div><div id="battle-log" class="battle-log" aria-label="戦況記録"></div></section></details>
+      </aside>
+    </div>
+    <footer><span>九つの升目に、無数の戦術。</span><span>BANJIN CHRONICLE <b> / </b> 仮版 v0.2</span></footer>
+  </main>
+  <dialog id="army-dialog" aria-label="出陣編成と設定"><button class="dialog-close" data-close="army-dialog" aria-label="出陣編成を閉じる">×</button><div id="mobile-army-host"></div></dialog>
+  <dialog id="stage-dialog" aria-labelledby="stage-list-title"><button class="dialog-close" data-close="stage-dialog" aria-label="ステージ一覧を閉じる">×</button><p class="eyebrow">STAGE SELECT</p><h2 id="stage-list-title">次の盤陣を選ぶ</h2><p class="muted">第一幕の固定報酬はクリア・全員生還の2枠。再挑戦で未取得の条件を狙えます。</p><div class="player-progress"><span>プレイヤーのコスト上限 <strong id="player-cost-limit"></strong></span><span>解禁済み <strong id="highest-stage"></strong></span></div><div id="stage-grid" class="stage-grid"></div><div class="stage-pagination"><button id="stage-prev" class="secondary">← 前へ</button><span id="stage-page"></span><button id="stage-next" class="secondary">次へ →</button></div></dialog>
+  <dialog id="reset-dialog" aria-labelledby="reset-title"><button class="dialog-close" data-close="reset-dialog" aria-label="セーブ削除をキャンセル">×</button><p class="eyebrow">NEW GAME</p><h2 id="reset-title">最初からやり直しますか？</h2><p class="muted">このブラウザーの盤陣クロニクルの進行・編成・装備・所持品を削除し、Stage 1の初期状態に戻します。この操作は元に戻せません。</p><div class="result-actions"><button class="secondary" data-close="reset-dialog">キャンセル</button><button id="confirm-reset" class="danger-button">セーブを削除する</button></div><p id="reset-notice" class="notice" role="status"></p></dialog>
+  <dialog id="equipment-dialog" aria-labelledby="equipment-title"><header class="equipment-dialog-header"><button class="dialog-close" data-close="equipment-dialog" aria-label="装備画面を閉じる">×</button><p class="eyebrow">EQUIPMENT</p><h2 id="equipment-title">駒の装備</h2><p class="muted tiny">装備をクリックして着脱。数量は「未使用 / 所持数」です。</p></header><div id="unit-detail"></div><p id="equipment-notice" class="notice" role="status" aria-live="polite"></p><p class="muted tiny">第一幕はクリア・全員生還の2枠を各1回だけ取得できます。第二幕はターン報酬を含む3枠。</p></dialog>
+  <dialog id="status-dialog" aria-labelledby="status-title"><button class="dialog-close" data-close="status-dialog" aria-label="駒一覧を閉じる">×</button><p class="eyebrow">ARMY STATUS</p><h2 id="status-title">出陣する駒の一覧</h2><p class="muted tiny">駒名をクリックすると、盤面で配置する駒を選べます。</p><p class="table-scroll-hint muted tiny">↔ 横にスクロールして能力・装備を確認</p><div class="status-table-scroll" tabindex="0" role="region" aria-label="駒の配置・能力・装備一覧"><table class="status-table"><thead><tr><th scope="col">駒</th><th scope="col">配置</th><th scope="col">HP</th><th scope="col">物攻</th><th scope="col">物防</th><th scope="col">魔攻</th><th scope="col">魔防</th><th scope="col">装備</th></tr></thead><tbody id="deployed-list"></tbody></table></div></dialog>
+  <dialog id="help-dialog"><button class="dialog-close" data-close="help-dialog" aria-label="閉じる">×</button><p class="eyebrow">FIELD GUIDE</p><h2>盤陣の心得</h2><div class="help-grid"><article><b>01 / 編成する</b><p>＋で駒を追加。歩兵9体、飛車・角・王1体、その他2体まで。駒をドラッグして自陣の空きマスへ配置できます。スマホは駒の長押し、PCはクリックで装備・強化の設定を開きます。スマホはタップで駒を選択し、選択中に別の駒や盤面を押すと選択解除します。編成から外す操作は設定画面の下部で確認後に実行します。装備の数量は未使用 / 所持数です。「状態確認」で駒の一覧を開けます。編成・配置・装備は自動保存。コスト上限はプレイヤーの進行で成長し、古いステージでも維持されます。</p></article><article><b>02 / ターンを進める</b><p>出陣すると敵移動 → 敵攻撃 → 味方攻撃の順に自動で進みます。「一時停止」で止めて、各段階を手動で進めることもできます。第一幕はStage1〜20、第二幕はStage21〜40。戦闘中は初期配置のまま迎撃します。攻撃には刀・術印・弓・術符などの攻撃装備が必要です。刀・術印は初期各27個。バフ・デバフ・回復は支援装備だけでも発動し、順番はバフ・デバフ → 攻撃 → 回復です。攻撃装備がない駒は攻撃しません。</p></article><article><b>03 / 戦術を解禁する</b><p>自陣内の初期配置はStage 1から変更可能。敵は自陣の1〜3行へ入ると成ります。侵入前に迎え撃ちましょう。第二幕（21〜40）は王将を1体編成して護衛します。王が倒れたら敗北です。敵は盤外突破を狙わず、王への攻撃位置を探して迂回や後退も使います。第三幕はStage41〜50。味方1体を移動すると、味方全員の攻撃・支援、敵1体の移動、敵全員の攻撃・支援まで自動で進みます。味方は駒を選び、緑の点をタップするかドラッグで移動。待機はできません。味方の角・飛車・香車は本来の射線上を距離制限なく移動でき、途中の駒は飛び越えられません。敵の移動は最大2マスです。敵王のHPを0にすると勝利、味方王の撃破で敗北です。防衛勝利・盤外突破はありません。第三幕は移動を選んで進行し、初クリア強化ポイントは41〜45が3P、46〜50が4Pです。Stage41初クリアで雷鳴の護符・防貫の大盾を獲得。大盾は貫通の射線を止め、装備者自身はダメージを受けます。</p></article><article><b>04 / 勝利をつかむ</b><p>第一幕は敵全滅で勝利。味方全滅、または敵が1行目から0行目へ進むと敗北。第一幕では王将だけの撃破では決着しません。第二幕は味方の王が討ち取られた時点で敗北し、自陣突破では負けません。敵全滅、または王を守って12ターン目の味方行動を終えると勝利です。第一幕はクリアで装備1個、全員生還で追加1個。全員生還でS、欠員が出た勝利はBです。ターン数の条件はありません。装備報酬2枠を各1回だけ取得できます。第二幕は規定ターン以内に敵全滅で追加1個。防衛勝利だけでは速攻報酬は得られません。全員生還と速攻の両方でSです。Stage5・10・15・20・30・40・50では追加で全駒の装備枠＋1。取得済み・新規・未取得を結果に表示。第一・二幕の初クリアで強化1Pを獲得し、駒の設定から好きな能力に割り振れます。</p></article></div><div class="formula">与ダメ・被ダメ = max(0, 物攻 − 物防) または max(0, 魔攻 − 魔防)<small>攻撃装備の補正を攻撃に加算。回復は最大HPまで。強化・弱化は2ターン有効。</small></div><p class="muted tiny">駒本来の長距離攻撃は駒で遮られます。桂馬は飛び越え可能。Stage4以降の敵は前進できる手から攻撃・撃破と生存を評価して移動します。前進が塞がれた時だけ次の前進につながる横移動をします。長距離は最大2マス、桂馬は跳躍。矢印で次の移動を予告し、味方行動中は仮予告になります。Stage5・10・15・20・30・40・50の通常クリアで全駒の装備枠＋1を獲得できます。</p><article class="chapter-two-start"><h3>第二幕から遊ぶ</h3><p class="muted">Stage20までの装備報酬を全回収し、未使用の強化20P・王入り初期編成でStage21を始めます。現在のセーブはバックアップします。出陣準備中に利用できます。</p><button class="secondary" id="start-chapter-two">Stage21から始める</button><button class="quiet" id="restore-chapter-two">切り替え前のセーブに戻す</button><p id="chapter-two-notice" class="notice" role="status"></p></article><article class="chapter-two-start"><h3>第三幕から遊ぶ</h3><p class="muted">Stage40までの装備報酬を全回収し、未使用40P・装備枠＋6・王入り初期編成でStage41を始めます。現在のセーブを別にバックアップします。</p><button class="secondary" id="start-chapter-three">Stage41から始める</button><button class="quiet" id="restore-chapter-three">第三幕へ切り替える前のセーブに戻す</button><p id="chapter-three-notice" class="notice" role="status"></p></article><button class="primary" data-close="help-dialog">戦場へ戻る →</button></dialog>
+  <dialog id="result-dialog"><p class="eyebrow" id="result-eyebrow">STAGE CLEAR</p><div class="result-seal" id="result-seal">勝</div><h2 id="result-title">盤陣を守り抜いた</h2><p id="result-reason"></p><div id="result-rewards" class="result-rewards"></div><p id="result-unlock" class="result-unlock"></p><div class="result-actions"><button class="secondary" id="result-retry">再挑戦</button><button class="primary" id="result-next">次のステージへ →</button><button class="secondary" id="result-stages">ステージ一覧へ</button></div><button class="quiet" data-close="result-dialog">盤面を確認する</button></dialog>
+</body>
+</html>
